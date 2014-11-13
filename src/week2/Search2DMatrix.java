@@ -4,7 +4,8 @@ public class Search2DMatrix {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test2();
+//		test2();
+		test3();
 	}
 	
 	 /**
@@ -88,5 +89,76 @@ public class Search2DMatrix {
     	boolean rev = searchMatrix(matrix, target);
     	System.out.println(rev);
     }
+    
+    
+    /*
+     * Write an efficient algorithm that searches for a value in an m x n matrix, 
+     * return the occurrence of it.
+     * This matrix has the following properties:
+     * Integers in each row are sorted from left to right.
+     * Integers in each column are sorted from up to bottom.
+     * No duplicate integers in each row or column.
+     * Example
+     * Consider the following matrix:
+     * [
+     * [1, 3, 5, 7],
+     * [2, 4, 7, 8],
+     * [3, 5, 9, 10]
+     * ]
+     * Given target = 3, return 2.
+     */
+    
+    
+    /**
+     * @param matrix: A list of lists of integers
+     * @param: A number you want to search in the matrix
+     * @return: An integer indicate the occurrence of target in the given matrix
+     */
+    public static int searchMatrix2(ArrayList<ArrayList<Integer>> matrix, int target) {
+        // write your code
+    	if(matrix == null || matrix.size() == 0)
+    		return 0;
+    	int rowL = matrix.size();
+    	int colL = matrix.get(0).size();
+    	int row = 0, col = colL - 1;
+    	int count = 0;
+    	while(row >=0 && row < rowL && col >=0 && col < colL){
+    		if(matrix.get(row).get(col) == target){
+    			count ++;
+    			col --;
+    		}else if(matrix.get(row).get(col) > target){
+    			//go left
+    			col --;
+    		}else{
+    			//matrix[row][col] < target
+    			//go down
+    			row++;
+    		}
+    	}
+    	return count;
+    }
+    
+    public static void test3(){
+    	int[][] input = {
+    			{1, 3, 5, 7},
+    		    {2, 4, 7, 8},
+    		    {3, 5, 9, 10}
+    	};
+    	int target = 3;
+    	ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();
+    	for(int i=0; i<input.length; i++){
+    		ArrayList<Integer> line = new ArrayList<Integer>();
+    		for(int j = 0; j<input[i].length; j++){
+    			line.add(input[i][j]);
+    		}
+    		matrix.add(line);
+    	}
+    	int rev = searchMatrix2(matrix, target);
+    	System.out.println("rev = " + rev);
+    }
+    
+    
+    
+    
     
 }
