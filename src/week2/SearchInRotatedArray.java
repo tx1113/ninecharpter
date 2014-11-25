@@ -4,7 +4,8 @@ public class SearchInRotatedArray {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		test2();
+	
 	}
 	
 	 /** 
@@ -61,7 +62,7 @@ public class SearchInRotatedArray {
     
     //follow up
     /** 
-     * param A : an integer ratated sorted array and duplicates are allowed
+     * param A : an integer rotated sorted array and duplicates are allowed
      * param target :  an integer to be search
      * return : a boolean 
      * 
@@ -94,9 +95,106 @@ public class SearchInRotatedArray {
     				end = mid;
     			}
     		}else{
+    			if (A[start] == target) {
+					return true;
+				}
     			start ++;
     		}
     	}
     	return false;
     }
+    
+    
+    // using the binary search template
+    public static int search_modify(int[] A, int target) {
+    	int start = 0, end = A.length - 1;
+    	while (start + 1 < end) {
+			int mid = start + (end - start) / 2;
+			if (A[mid] == target) {
+				return mid;
+			}
+			
+			if (A[start] < A[mid]) {
+				// A[start..end] is sorted
+				if (A[start] <= target && target < A[mid]) {
+					//in the sorted part;
+					end = mid;
+				} else {
+					//in the unsorted part
+					start = mid;
+				}
+			} else {
+				// A[mid..end] is sorted
+				if (A[mid] < target && target <= A[end]) {
+					//in the sorted part
+					start = mid;
+				} else {
+					// in the unsorted part
+					end = mid;
+				}
+			}
+		}
+    	if (A[start] == target) {
+			return start;
+		}
+    	if (A[end] == target) {
+			return end;
+		}
+    	return -1;
+    }
+    
+    public static boolean searchDup_modify(int[] A, int target)  {
+    	int start = 0, end = A.length - 1;
+    	
+    	while (start + 1 < end) {
+			int mid = start + (end - start)/2;
+			if (A[mid] == target) {
+				return true;
+			}
+			
+			if (A[start] < A[mid]) {
+				//A[start..mid] is sorted
+				if (A[start] <= target && target < A[mid]) {
+					//in the sorted part
+					end = mid;
+				} else {
+					// in the unsorted part, right part
+					start = mid;
+				}
+			} else if (A[mid] < A[end]) {
+				//A[mid..end] is sorted
+				if (A[mid] < target && target <= A[end]) {
+					//in the right part, also sorted part
+					start = mid;
+				} else {
+					end = mid;
+				}
+			} else {
+				if (A[start] == target) {
+					return true;
+				} 
+				// !!!here, we must add the A[start] == target, since we haven't see this case
+				// before start ++, we need to check whether A[start] == target
+				// e.g {3,1,1} 3. In the above code, start = 0, end = 2, mid = 1
+				//  		      A[start] < A[mid] false && A[mid] < A[end] false.
+				// 				  directly go here. if we didn't check, it would directly increase
+				// 				  and miss the A[start]
+				start ++;
+			}
+		}
+    	if (A[start] == target || A[end] == target) {
+			return true;
+		}
+    	return false;
+    }
+    
+    public static void test2() {
+    	int[] A = {3,1,1}; 
+		boolean exist = searchDup_modify(A, 3);
+		System.out.println(exist);
+	}
+    
+   
+    
+    
 }

@@ -1,5 +1,6 @@
 package week2;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 
 
@@ -64,6 +65,58 @@ public class SearchForARange {
     	A.add(1);
     	ArrayList<Integer> range = searchRange(A, 1);
     	System.out.println(range);
+    }
+    
+    
+    //a more general way
+    // binary search twice
+    public static ArrayList<Integer> searchRangeM(ArrayList<Integer> A, int target){
+    	
+    	ArrayList<Integer> bound = new ArrayList<Integer>();
+    	int start = 0, end = A.size() - 1;
+    	//first binary search, find left bound
+    	while( start + 1 < end){
+    		int mid = start + (end - start) / 2;
+    		if (target == A.get(mid)) {
+    			end = mid;
+    		}else if (target < A.get(mid)) {
+    			end = mid;
+    		}else {
+    			start = mid;
+    		}
+    	}
+    	if (A.get(start) == target) {
+    		bound.add(start);
+    	} else if (A.get(end) == target) {
+    		bound.add(end);
+    	}else {
+			bound.add(-1);
+			bound.add(-1);
+			return bound;
+		}
+    	
+    	start = 0;
+    	end = A.size() - 1;
+    	while (start + 1 < end) {
+			int mid = start + (end - start) / 2;
+			if (A.get(mid) == target) {
+				start = mid;
+			} else if (target < A.get(mid)) {
+				end = mid;
+			} else {
+				start = mid;
+			}
+		}
+    	if (A.get(end) == target) {
+			bound.add(end);
+		} else if (A.get(start) == target){
+			bound.add(start);
+		} else {
+			bound.add(-1);
+			bound.add(-1);
+			return bound;
+		}
+    	return bound;
     }
 	
 

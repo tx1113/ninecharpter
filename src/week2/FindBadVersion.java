@@ -7,7 +7,6 @@ public class FindBadVersion {
 		test();
 	}
 	
-	
 	public static boolean isBadVersion(int k, int[] input){
 		if(input[k] == 1){
 			return true;
@@ -18,11 +17,12 @@ public class FindBadVersion {
 	
 	public static int findFirstBadVersion(int n, int[] input){
 		int start = 1, end = n;
-		while(start <end){
-			int mid = (start + end)/2;
+		while(start + 1 <end){
+//			int mid = (start + end)/2;
+			int mid = start + (end - start) / 2;
 			if(isBadVersion(mid, input) == false){
 				//the mid is OK. the left side is OK.
-				start = mid + 1;
+				start = mid;
 			}else {
 				//the mid is bad. the right side is all Bad
 				end = mid;
@@ -30,7 +30,12 @@ public class FindBadVersion {
 		}
 		System.out.println("start = " + start);
 		System.out.println("end = " + end);
-		return start;
+		if (isBadVersion(start, input)) {
+			return start;
+		}else {
+			return end;
+		}
+	
 	}
 	public static void test(){
 		int[] input = {-1, 0,0,0,0,0,0,1,1,1,1};
@@ -69,6 +74,27 @@ public class FindBadVersion {
 //	        return start;
 //	    }
 //	}
+	
+	
+	/*
+	 *  public int findFirstBadVersion(int n) {
+        // write your code here
+        int start = 1, end = n;
+        while (start + 1 < end) {
+            int mid = start + (end - start)/2;
+            if (VersionControl.isBadVersion(mid)) {
+                end = mid;
+            } else {
+                start = mid;
+            }
+        }
+        if (VersionControl.isBadVersion(start)) {
+            return start;
+        }else {
+            return end;
+        }
+    }
+	 */
 }
 
 /**

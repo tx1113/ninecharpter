@@ -4,7 +4,8 @@ public class FindPeak {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test();
+//		test();
+		test2();
 	}
 	
     /*
@@ -100,11 +101,16 @@ public class FindPeak {
 	//in this code, return the element rather than the index
 	//recursion version
 	public static int findPeakHelper(int[] A, int start, int end){
+		if (start > end) {
+			return 0;
+		}
 		int len = A.length;
-		int mid = start + (end - start);
-		
+		int mid = start + (end - start)/2;
+		System.out.println("start = " + start);
+		System.out.println("end = " + end);
+		System.out.println("mid = " + mid);
 		if((mid == 0 || A[mid] > A[mid - 1])
-				&& (mid ==len - 1 && A[mid] > A[mid + 1])){
+				&& (mid ==len - 1 || A[mid] > A[mid + 1])){
 			return mid;
 		}else if( mid > 0 && A[mid] < A[mid - 1]){
 			//there must exist a peak in the left side
@@ -117,6 +123,11 @@ public class FindPeak {
 		return findPeakHelper(A, 0, A.length - 1);
 	}
 	
+	public static void test2() {
+		int[] A = {1,1,1,1,1,1,1};
+		System.out.println(findPeak2(A));
+		System.out.println("hello world");
+	}	
 	
     
 	

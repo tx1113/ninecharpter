@@ -1,13 +1,13 @@
 package week2;
 
-import java.awt.RenderingHints;
 import java.util.ArrayList;
 
 public class SearchInsertPosition {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test();
+//		test();
+		test2();
 	}
 	
 	/**
@@ -98,6 +98,50 @@ public class SearchInsertPosition {
     	int rev5 = bst(a1, 4);
     	
     }
+    
+    
+    //using the binary search insert position
+    // find the last number less than the target
+    public static int searchInsert_modify(int[] A, int target) {
+    	int start = 0, end = A.length - 1;
+    	if (target < A[0]) {
+			return 0;
+		}
+    	if (target > A[end]) {
+			return end + 1;
+		}
+    	while (start + 1 < end) {
+			int mid = start + (end - start)/2;
+			if (A[mid] == target) {
+				return mid;
+			} else if (target < A[mid]) {
+				//in the left side
+				end = mid;
+			} else {
+				start = mid;
+			}
+		}
+//    	System.out.println("start = " + start);
+//    	System.out.println("end = " + end);
+    	if (A[end] == target) {
+			return end;
+		}
+    	if (A[end] < target) {
+			return end + 1;
+		}
+    	if (A[start] == target) {
+			return start;
+		}
+    	return start + 1;
+    }
+    
+    public static void  test2() {
+		int[] A = {1,3,5,5,5,7,9,10};
+		int rev1 = searchInsert_modify(A, 6);
+		System.out.println("rev1 = " + rev1);
+	}
+    
+    
     
 
 }
